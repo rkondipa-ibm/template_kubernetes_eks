@@ -97,6 +97,16 @@ resource "aws_security_group_rule" "sgr_workerFromCluster_https_ingress" {
   type                     = "ingress"
 }
 
+data "aws_ami" "eks_worker" {
+  filter {
+    name   = "name"
+    values = ["${var.aws_ami_name_prefix}-${local.cluster_version}-v*"]
+  }
+
+  most_recent = true
+  owners      = ["${var.aws_ami_owner_id}"] # Amazon EKS AMI Account ID
+}
+
 # EKS currently documents this required userdata for EKS worker nodes to
 # properly configure Kubernetes applications on the EC2 instance.
 # We utilize a Terraform local here to simplify Base64 encoding this

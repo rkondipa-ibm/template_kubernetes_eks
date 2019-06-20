@@ -58,12 +58,15 @@ resource "aws_security_group_rule" "sgr_cluster_https_ingress" {
   type              = "ingress"
 }
 
+locals {
+  cluster_version = "${lookup(data.external.get_cluster_version.result, "cluster_version", "")}"
+}
 
 resource "aws_eks_cluster" "eks_cluster" {
   depends_on      = ["null_resource.validate-kube-version"]
   name            = "${var.cluster_name}"
   role_arn        = "${aws_iam_role.cluster_role.arn}"
-  version         = "${lookup(data.external.get_cluster_version.result, "cluster_version", "")}"
+  version         = "${local.cluster_version}"
 
   vpc_config {
     security_group_ids = ["${aws_security_group.sg_cluster.id}"]

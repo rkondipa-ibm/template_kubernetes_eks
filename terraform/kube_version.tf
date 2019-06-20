@@ -25,7 +25,7 @@ locals {
                       local.ami_name_without_version}"
 }
 
-data "aws_ami" "eks_worker" {
+data "aws_ami" "kube_version_lookup" {
   filter {
     name   = "name"
     values = ["${local.version_prefix}*"]
@@ -39,7 +39,7 @@ data "external" "get_cluster_version" {
   program = ["bash", "${path.module}/scripts/getVersion.sh"]
 
   query = {
-    ami_image_name = "${data.aws_ami.eks_worker.name}"
+    ami_image_name = "${data.aws_ami.kube_version_lookup.name}"
     version_regex  = "^${local.ami_name_without_version}.*-(([0-9]+\\.?){0,2}([0-9]+))-v.*"
   }
 }
