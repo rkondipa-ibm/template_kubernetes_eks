@@ -1,11 +1,9 @@
-
-
 locals {
   kubeconfig = <<KUBECONFIG
 apiVersion: v1
 clusters:
 - cluster:
-    certificate-authority-data: ${aws_eks_cluster.eks_cluster.certificate_authority.0.data}
+    certificate-authority-data: ${aws_eks_cluster.eks_cluster.certificate_authority[0].data}
     server: ${aws_eks_cluster.eks_cluster.endpoint}
   name: ${aws_eks_cluster.eks_cluster.arn}
 contexts:
@@ -27,26 +25,26 @@ users:
         - "${var.cluster_name}"
       command: aws-iam-authenticator
 KUBECONFIG
+
 }
 
-
 output "cluster_name" {
-  value = "${aws_eks_cluster.eks_cluster.name}"
+  value = aws_eks_cluster.eks_cluster.name
 }
 
 output "cluster_config" {
-  value = "${base64encode(local.kubeconfig)}"
+  value = base64encode(local.kubeconfig)
 }
 
 output "cluster_certificate_authority" {
-  value = "${base64encode(aws_eks_cluster.eks_cluster.certificate_authority.0.data)}"
+  value = base64encode(aws_eks_cluster.eks_cluster.certificate_authority[0].data)
 }
 
 output "cluster_endpoint" {
-  value = "${aws_eks_cluster.eks_cluster.endpoint}"
+  value = aws_eks_cluster.eks_cluster.endpoint
 }
 
 output "cluster_region" {
-  value = "${var.aws_region}"
+  value = var.aws_region
 }
 

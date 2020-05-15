@@ -1,0 +1,350 @@
+{
+  "terraform_version": "~> 0.12.0",
+  "input_datatypes": [],
+  "output_datatypes": [
+    {
+      "name": "kubeconfig",
+      "dataobject": {
+        "name":"${template_input_params.cluster_name}",
+        "attributes":[
+          {
+            "name": "cluster_name",
+            "value": "${template_output_params.cluster_name}"
+          },
+          {
+            "name": "cluster_config",
+            "value": "${template_output_params.cluster_config}"
+          },
+          {
+            "name": "cluster_certificate_authority",
+            "value": "${template_output_params.cluster_certificate_authority}"
+          }              
+        ]
+      }
+    }
+  ],
+  "input_groups": [
+    {
+      "name": "cluster",
+      "label": "EKS Cluster"
+    },
+    {
+      "name": "workernodes",
+      "label": "Worker Nodes"
+    }
+  ],
+  "template_input_params": [
+    {
+      "name": "cluster_name",
+      "type": "string",
+      "description": "Name of the cluster.",
+      "hidden": false,
+      "label": "Cluster Name",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "cluster"
+    },
+    {
+      "name": "aws_region",
+      "type": "string",
+      "description": "AWS Region Name",
+      "hidden": false,
+      "label": "AWS Region Name",
+      "secured": false,
+      "options": [
+        {
+          "value": "us-east-1",
+          "label": "US East (N. Virginia)",
+          "default": true
+        },
+        {
+          "value": "us-east-2",
+          "label": "US East (Ohio)"
+        },
+        {
+          "value": "us-west-1",
+          "label": "US West (N. California)"
+        },
+        {
+          "value": "us-west-2",
+          "label": "US West (Oregon)"
+        },
+        {
+          "value": "us-gov-west-1",
+          "label": "US GovCloud Region"
+        },
+        {
+          "value": "ca-central-1",
+          "label": "Canada (Central)"
+        },
+        {
+          "value": "eu-west-1",
+          "label": "EU (Ireland)"
+        },
+        {
+          "value": "eu-central-1",
+          "label": "EU (Frankfurt)"
+        },
+        {
+          "value": "eu-west-2",
+          "label": "EU (London)"
+        },
+        {
+          "value": "ap-northeast-1",
+          "label": "Asia Pacific (Tokyo)"
+        },
+        {
+          "value": "ap-northeast-2",
+          "label": "Asia Pacific (Seoul)"
+        },
+        {
+          "value": "ap-southeast-1",
+          "label": "Asia Pacific (Singapore)"
+        },
+        {
+          "value": "ap-southeast-2",
+          "label": "Asia Pacific (Sydney)"
+        },
+        {
+          "value": "ap-south-1",
+          "label": "Asia Pacific (Mumbai)"
+        },
+        {
+          "value": "sa-east-1",
+          "label": "South America (Sao Paulo)"
+        }
+      ],
+      "required": true,
+      "immutable": false,
+      "group_name": "cluster"
+    },
+    {
+      "name": "aws_availability_zones",
+      "label": "Availability Zones",
+      "description": "The availability zone letter identifier in the above selected region. At lease 2 availability zones are required; High availability should have at least 3 availability zones.",
+      "type": "list",
+      "default": [
+        "a",
+        "b",
+        "c"
+      ],
+      "validation": "",
+      "group_name": "cluster",
+      "required": true,
+      "secured": false,
+      "hidden": false,
+      "immutable": false,
+      "immutable_after_create": false
+    },
+    {
+      "name": "kube_version",
+      "type": "string",
+      "description": "Kubernetes version for the cluster; 'latest' for the latest supported version, or version number in X.Y[.Z] format",
+      "default": "latest",
+      "hidden": false,
+      "label": "Kubernetes version",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "cluster"
+    },
+    {
+        "name": "aws_ami_owner_id",
+        "type": "string",
+        "description": "AWS AMI Owner ID",
+        "default": "602401143452",
+        "hidden": false,
+        "label": "AWS AMI Owner ID",
+        "secured": false,
+        "required": true,
+        "immutable": false,
+        "group_name": "workernodes"
+    },
+    {
+        "name": "aws_ami_name_prefix",
+        "type": "string",
+        "description": "Name prefix for AWS AMI",
+        "default": "amazon-eks-node",
+        "hidden": false,
+        "label": "AWS AMI Name prefix",
+        "secured": false,
+        "required": true,
+        "immutable": false,
+        "group_name": "workernodes"
+    },
+    {
+        "name": "aws_image_size",
+        "type": "string",
+        "description": "AWS Image Instance Size",
+        "default": "t3.medium",
+        "hidden": false,
+        "label": "AWS Image Instance Size",
+        "secured": false,
+        "required": true,
+        "immutable": false,
+        "group_name": "workernodes"
+    },
+    {
+        "name": "min_worker_count",
+        "type": "string",
+        "description": "Minimum number of worker nodes",
+        "hidden": false,
+        "label": "Minimum number of worker nodes",
+        "secured": false,
+        "options": [
+          {
+            "value": "1",
+            "label": "1",
+            "default": true
+          },
+          {
+            "value": "2",
+            "label": "2"
+          },
+          {
+            "value": "3",
+            "label": "3"
+          }
+        ],
+        "required": true,
+        "immutable": false,
+        "group_name": "workernodes"
+    },
+    {
+        "name": "max_worker_count",
+        "type": "string",
+        "description": "Maximum number of worker nodes",
+        "hidden": false,
+        "label": "Maximum number of worker nodes",
+        "secured": false,
+        "options": [
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          },
+          {
+            "value": "3",
+            "label": "3",
+            "default": true
+          },
+          {
+            "value": "4",
+            "label": "4"
+          },
+          {
+            "value": "5",
+            "label": "5"
+          },
+          {
+            "value": "6",
+            "label": "6"
+          },
+          {
+            "value": "7",
+            "label": "7"
+          },
+          {
+            "value": "8",
+            "label": "8"
+          },
+          {
+            "value": "9",
+            "label": "9"
+          },
+          {
+            "value": "10",
+            "label": "10"
+          }
+        ],
+        "required": true,
+        "immutable": false,
+        "group_name": "workernodes"
+    },
+    {
+        "name": "initial_worker_count",
+        "type": "string",
+        "description": "Initial number of worker nodes",
+        "hidden": false,
+        "label": "Initial number of worker nodes",
+        "secured": false,
+        "options": [
+          {
+            "value": "1",
+            "label": "1",
+            "default": true
+          },
+          {
+            "value": "2",
+            "label": "2"
+          },
+          {
+            "value": "3",
+            "label": "3"
+          },
+          {
+            "value": "4",
+            "label": "4"
+          },
+          {
+            "value": "5",
+            "label": "5"
+          }
+        ],
+        "required": true,
+        "immutable": false,
+        "group_name": "workernodes"
+    }
+  ],
+  "template_output_params": [
+    {
+        "name": "cluster_name",
+        "type": "string",
+        "description": "Cluster name or ID.",
+        "label": "Cluster name",
+        "hidden": false,
+        "secured": false,
+        "immutable": false
+    },          
+    {
+        "name": "cluster_config",
+        "type": "string",
+        "description": "Base64 encoded content of the kubeconfig yaml file.",
+        "label": "Cluster configuration",
+        "secured": false,
+        "hidden": false,
+        "immutable": false
+    },
+    {
+        "name": "cluster_certificate_authority",
+        "type": "string",
+        "description": "Base64 encoded certificate authority used to connect to the cluster.",
+        "label": "Cluster certificate authority",
+        "secured": false,
+        "hidden": false,
+        "immutable": false
+    },
+    {
+        "name": "cluster_endpoint",
+        "type": "string",
+        "description": "Endpoint for the kubernetes API server.",
+        "label": "Cluster endpoint",
+        "secured": false,
+        "hidden": false,
+        "immutable": false
+    },
+    {
+        "name": "cluster_region",
+        "type": "string",
+        "description": "Region in which the cluster is deployed.",
+        "label": "Cluster region",
+        "secured": false,
+        "hidden": false,
+        "immutable": false
+    }
+  ]
+}

@@ -1,5 +1,3 @@
-
-
 variable "cluster_name" {
   description = "The base name for the cluster."
 }
@@ -9,7 +7,7 @@ variable "aws_region" {
 }
 
 variable "aws_availability_zones" {
-  type  = "list"
+  type = list(string)
 }
 
 variable "kube_version" {
@@ -39,3 +37,4 @@ variable "max_worker_count" {
 variable "initial_worker_count" {
   description = "Initial number of worker nodes"
 }
+

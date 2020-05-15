@@ -1,3 +1,4 @@
+
 ## Prepare and execute script that will repeatedly, as needed, check the
 ## status of the cluster API server endpoint.  If the API server is not
 ## accessible/fully started, a TLS handshake timeout occurs when attempting

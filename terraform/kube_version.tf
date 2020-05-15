@@ -1,3 +1,4 @@
+
 ## Determine kubernetes version for the cluster and worker nodes
 ## Query the 'aws_ami' data source to identify the appropriate
 ## worker node image, identified via the given 'kube_version'
