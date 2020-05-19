@@ -15,7 +15,7 @@
     "template_source": {
       "githubRepoUrl": "",
       "githubAccessToken": "",
-      "relativePathToTemplateFolder": "terraform",
+      "relativePathToTemplateFolder": "terraform12",
       "templateFileName": "cluster.tf"
     }
   },
