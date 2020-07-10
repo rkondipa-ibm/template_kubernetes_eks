@@ -33,7 +33,7 @@ resource "null_resource" "wait_for_api_server" {
 
 
 ## With the API server endpoint now active, enable the worker nodes within the cluster
-data "aws_eks_cluster" "cluster" {
+data "aws_eks_cluster" "cluster" { 
   name = "${aws_eks_cluster.eks_cluster.name}"
 }
 
