@@ -40,6 +40,7 @@ resource "aws_security_group" "sg_cluster" {
   name        = "${var.cluster_name}-sg-cluster"
   description = "Cluster communication with worker nodes"
   vpc_id      = "${aws_vpc.cluster_vpc.id}"
+  tags        = module.camtags.tagslist
 
   egress {
     from_port   = 0
@@ -47,8 +48,6 @@ resource "aws_security_group" "sg_cluster" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  
-  tags = module.camtags.tagsmap
 }
 
 resource "aws_security_group_rule" "sgr_cluster_https_ingress" {
