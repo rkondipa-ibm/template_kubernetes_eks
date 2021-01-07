@@ -2,6 +2,10 @@ provider "aws" {
   version = "~> 2.44.0"
 }
 
+module "camtags" {
+  source = "../Modules/camtags"
+}
+
 resource "aws_iam_role" "cluster_role" {
   name = "${var.cluster_name}-cluster-role"
 
@@ -44,12 +48,7 @@ resource "aws_security_group" "sg_cluster" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   
-  tags = "${
-    map(
-     "aws:cloudformation:stack-name", "${local.stack_name}",
-     "aws:cloudformation:logical-id", "ControlPlaneSecurityGroup",
-    )
-  }"
+  tags = module.camtags.tagsmap
 }
 
 resource "aws_security_group_rule" "sgr_cluster_https_ingress" {

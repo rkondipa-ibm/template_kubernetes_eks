@@ -1,4 +1,6 @@
-
+module "camtags" {
+  source = "../Modules/camtags"
+}
 
 resource "aws_iam_role" "worker_role" {
   name = "${var.cluster_name}-worker-role"
@@ -51,12 +53,7 @@ resource "aws_security_group" "sg_worker"{
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = "${
-    map(
-     "Name", "${var.cluster_name}-sg-worker",
-     "kubernetes.io/cluster/${var.cluster_name}", "owned",
-    )
-  }"
+  tags = module.camtags.tagsmap
 }
 
 resource "aws_security_group_rule" "sgr_worker_self_ingress" {
