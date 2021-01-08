@@ -40,7 +40,7 @@ resource "aws_security_group" "sg_cluster" {
   name        = "${var.cluster_name}-sg-cluster"
   description = "Cluster communication with worker nodes"
   vpc_id      = "${aws_vpc.cluster_vpc.id}"
-  tags        = module.camtags.tagslist
+  tags        = "${module.camtags.tagsmap}"
 
   egress {
     from_port   = 0
