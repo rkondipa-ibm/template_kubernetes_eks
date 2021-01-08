@@ -1,4 +1,4 @@
-module "camtags" {
+module "camtag" {
   source = "../Modules/camtags"
 }
 
@@ -45,7 +45,7 @@ resource "aws_security_group" "sg_worker"{
   name        = "${var.cluster_name}-sg-worker"
   description = "Security group for all nodes in the cluster"
   vpc_id      = "${aws_vpc.cluster_vpc.id}"
-  tags        = "${module.camtags.tagsmap}"
+  tags        = "${module.camtag.tagsmap}"
 
   egress {
     from_port   = 0
