@@ -45,6 +45,7 @@ resource "aws_security_group" "sg_worker"{
   name        = "${var.cluster_name}-sg-worker"
   description = "Security group for all nodes in the cluster"
   vpc_id      = "${aws_vpc.cluster_vpc.id}"
+  tags        = "${module.camtags.tagsmap}"
 
   egress {
     from_port   = 0
@@ -52,8 +53,6 @@ resource "aws_security_group" "sg_worker"{
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
-  tags = module.camtags.tagsmap
 }
 
 resource "aws_security_group_rule" "sgr_worker_self_ingress" {
